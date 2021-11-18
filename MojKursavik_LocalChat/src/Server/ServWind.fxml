@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="508.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServWindControl">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#StartServ" prefHeight="29.0" prefWidth="117.0" text="Zapusk servera" />
+      <Label layoutX="14.0" layoutY="63.0" text="Nazva čata" />
+      <Label layoutX="14.0" layoutY="115.0" text="Vyjava čata" />
+      <TextField fx:id="chatName" layoutX="14.0" layoutY="80.0" />
+      <TextField fx:id="chatAva" layoutX="14.0" layoutY="132.0" />
+      <Button layoutX="14.0" layoutY="170.0" mnemonicParsing="false" onAction="#AddChat" prefHeight="25.0" prefWidth="149.0" text="Dadać čat" />
+      <WebView fx:id="W0" layoutX="336.0" layoutY="14.0" prefHeight="70.0" prefWidth="240.0" />
+      <WebView fx:id="W1" layoutX="336.0" layoutY="80.0" prefHeight="70.0" prefWidth="240.0" />
+      <WebView fx:id="W2" layoutX="336.0" layoutY="148.0" prefHeight="70.0" prefWidth="240.0" />
+      <WebView fx:id="W3" layoutX="336.0" layoutY="218.0" prefHeight="70.0" prefWidth="240.0" />
+      <WebView fx:id="W4" layoutX="336.0" layoutY="288.0" prefHeight="70.0" prefWidth="240.0" />
+      <WebView fx:id="W5" layoutX="336.0" layoutY="358.0" prefHeight="70.0" prefWidth="240.0" />
+      <WebView fx:id="W6" layoutX="336.0" layoutY="428.0" prefHeight="70.0" prefWidth="240.0" />
+      <Button layoutX="181.0" layoutY="16.0" mnemonicParsing="false" onAction="#getChat" prefHeight="25.0" prefWidth="149.0" text="Atrymać śpis čataŭ" />
+      <Button layoutX="14.0" layoutY="195.0" mnemonicParsing="false" onAction="#DelChat" prefHeight="25.0" prefWidth="149.0" text="Vydalić čat" />
+      <Button layoutX="14.0" layoutY="220.0" mnemonicParsing="false" onAction="#UpdChat" prefHeight="25.0" prefWidth="149.0" text="Źmianić čat" />
+      <WebView fx:id="W01" layoutX="11.0" layoutY="428.0" prefHeight="70.0" prefWidth="240.0" />
+      <Label layoutX="14.0" layoutY="411.0" text="Vydzieleny čat" />
+   </children>
+</AnchorPane>

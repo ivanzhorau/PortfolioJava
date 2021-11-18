@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="300.0" minWidth="600.0" prefHeight="576.0" prefWidth="1371.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deposit.DepositForm">
+   <children>
+      <TextField fx:id="KassaD" editable="false" layoutX="45.0" layoutY="10.0" prefHeight="25.0" prefWidth="116.0" />
+      <ScrollPane layoutX="3.0" layoutY="73.0" prefHeight="436.0" prefWidth="317.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="312.0">
+               <children>
+                  <Button layoutX="13.0" layoutY="304.0" mnemonicParsing="false" onAction="#toBill" prefHeight="25.0" prefWidth="287.0" text="Перевод на счёт" />
+                  <Button layoutX="13.0" layoutY="329.0" mnemonicParsing="false" onAction="#getPerc" prefHeight="25.0" prefWidth="287.0" text="Вывод процентов" />
+                  <Button layoutX="13.0" layoutY="354.0" mnemonicParsing="false" onAction="#outDep" prefHeight="25.0" prefWidth="287.0" text="Вывод депозита" />
+                  <ChoiceBox fx:id="ClInp" layoutX="151.0" layoutY="47.0" prefWidth="150.0" />
+                  <Label layoutX="12.0" layoutY="51.0" text=" Клиент" />
+                  <TextField fx:id="summ" layoutX="151.0" layoutY="14.0" />
+                  <Label layoutX="14.0" layoutY="18.0" text="Сумма" />
+                  <Button layoutX="75.0" layoutY="379.0" mnemonicParsing="false" onAction="#endDay" text="Закрытие банковского дня" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Label layoutX="14.0" layoutY="14.0" text="Касса" />
+      <Label layoutX="15.0" layoutY="43.0" text="СФРБ" />
+      <TextField fx:id="SFRBD" editable="false" layoutX="45.0" layoutY="39.0" prefHeight="25.0" prefWidth="116.0" />
+      <TextField fx:id="KassaK" editable="false" layoutX="165.0" layoutY="10.0" prefHeight="25.0" prefWidth="116.0" />
+      <TextField fx:id="SFRBK" editable="false" layoutX="165.0" layoutY="39.0" prefHeight="25.0" prefWidth="116.0" />
+      <Button layoutX="7.0" layoutY="536.0" mnemonicParsing="false" onAction="#Upd" prefHeight="25.0" prefWidth="317.0" text="Обновить" />
+      <TableView fx:id="tab" layoutX="323.0" layoutY="7.0" prefHeight="567.0" prefWidth="1038.0">
+        <columns>
+          <TableColumn fx:id="idTab" prefWidth="75.0" text="id" />
+          <TableColumn fx:id="nowDTab" prefWidth="163.0" text="Текущий счёт(д)" />
+            <TableColumn fx:id="nowKTab" prefWidth="137.0" text="Текущий счёт(к)" />
+            <TableColumn fx:id="percDTab" prefWidth="145.0" text="Процентный счёт(д)" />
+            <TableColumn fx:id="percKTab" prefWidth="150.0" text="Процентный счёт(к)" />
+            <TableColumn fx:id="clTab" prefWidth="159.0" text="Клиент" />
+            <TableColumn fx:id="vlkTab" prefWidth="134.0" text="Вид вклада" />
+            <TableColumn fx:id="valTab" prefWidth="67.0" text="Валюта" />
+        </columns>
+      </TableView>
+      <Button layoutX="7.0" layoutY="509.0" mnemonicParsing="false" onAction="#Reg" prefHeight="25.0" prefWidth="317.0" text="Добавить договор" />
+   </children>
+</AnchorPane>

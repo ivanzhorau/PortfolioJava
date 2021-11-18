@@ -1,0 +1,1230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:PapyrusJava="http://www.eclipse.org/papyrus/PapyrusJava/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="_Zg7kEJWgEeujU4p-Dztokg" name="alpha">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_aPaasJWgEeujU4p-Dztokg">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_GgBiIJWkEeujU4p-Dztokg" name="AlphaBank">
+      <packagedElement xmi:type="uml:Package" xmi:id="_GjEPEJWkEeujU4p-Dztokg" name="dataconnecter">
+        <packagedElement xmi:type="uml:Class" xmi:id="_GjKVsJWkEeujU4p-Dztokg" name="DBConnecter" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_GpKQAJWkEeujU4p-Dztokg" name="usname" visibility="private" isStatic="true" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false">
+            <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_GpQWoJWkEeujU4p-Dztokg" name="defaultValue">
+              <language>JAVA</language>
+              <body>&quot;root&quot;</body>
+            </defaultValue>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_GpUoEJWkEeujU4p-Dztokg" name="pass" visibility="private" isStatic="true" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false">
+            <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_GpWdQJWkEeujU4p-Dztokg" name="defaultValue">
+              <language>JAVA</language>
+              <body>&quot;nonserviam&quot;</body>
+            </defaultValue>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_GpXrYJWkEeujU4p-Dztokg" name="url" visibility="private" isStatic="true" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false">
+            <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_GpausJWkEeujU4p-Dztokg" name="defaultValue">
+              <language>JAVA</language>
+              <body>&quot;jdbc:mysql://127.0.0.1:3306?serverTimezone=Europe/Moscow&amp;useSSL=false&quot;</body>
+            </defaultValue>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_Gpb80JWkEeujU4p-Dztokg" name="instance" visibility="private" isStatic="true" type="_GjKVsJWkEeujU4p-Dztokg" isUnique="false">
+            <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_Gpb80ZWkEeujU4p-Dztokg" name="defaultValue">
+              <language>JAVA</language>
+              <body>new DBConnecter()</body>
+            </defaultValue>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_GpoKEZWkEeujU4p-Dztokg" name="getInstance" specification="_GpiDcJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    if (instance == null) {&#xD;
+        instance = new DBConnecter();&#xD;
+    }&#xD;
+    return instance;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Gp6d8JWkEeujU4p-Dztokg" name="executeCommand" specification="_GpuQsJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    ArrayList&lt;String[]> res = new ArrayList&lt;String[]>();&#xD;
+    ResultSet rs = null;&#xD;
+    MysqlDataSource ds = new MysqlDataSource();&#xD;
+    ds.setUrl(url);&#xD;
+    ds.setUser(usname);&#xD;
+    ds.setPassword(pass);&#xD;
+    System.out.println(SQL);&#xD;
+    try (Connection conn = ds.getConnection()) {&#xD;
+        Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;).getDeclaredConstructor().newInstance();&#xD;
+        Statement st = conn.createStatement();&#xD;
+        if (SQL.toLowerCase().contains(&quot;select&quot;)) {&#xD;
+            rs = st.executeQuery(SQL);&#xD;
+            ResultSetMetaData rsmd = rs.getMetaData();&#xD;
+            while (rs.next()) {&#xD;
+                String[] s = new String[rsmd.getColumnCount()];&#xD;
+                for (int i = 0; i &lt; s.length; i++) {&#xD;
+                    s[i] = rs.getString(i + 1);&#xD;
+                }&#xD;
+                res.add(s);&#xD;
+            }&#xD;
+        } else {&#xD;
+            st.executeUpdate(SQL);&#xD;
+        }&#xD;
+        conn.close();&#xD;
+    } catch (SQLExceptionInstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException |  e) {&#xD;
+        e.printStackTrace();&#xD;
+    }&#xD;
+    return res;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_GpiDcJWkEeujU4p-Dztokg" name="getInstance" visibility="public" isStatic="true" method="_GpoKEZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_GpoKEJWkEeujU4p-Dztokg" type="_GjKVsJWkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_GpuQsJWkEeujU4p-Dztokg" name="executeCommand" visibility="public" method="_Gp6d8JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_GpuQsZWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Gp0XUJWkEeujU4p-Dztokg"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Gp0XUZWkEeujU4p-Dztokg" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Gp0XUpWkEeujU4p-Dztokg" name="SQL" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_MM_sAJWkEeujU4p-Dztokg" name="client">
+        <packagedElement xmi:type="uml:Class" xmi:id="_MM_sAZWkEeujU4p-Dztokg" name="Citisenship" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MNbw4JWkEeujU4p-Dztokg" name="id" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MNgpYJWkEeujU4p-Dztokg" name="citisen" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MNuEwZWkEeujU4p-Dztokg" name="Citisenship" specification="_MNjFoJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    id = Integer.parseInt(arg[0]);&#xD;
+    citisen = arg[1];&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MN7gIJWkEeujU4p-Dztokg" name="Citisenship" specification="_MN0LYJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+// TODO Auto-generated constructor stub&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MOCN0JWkEeujU4p-Dztokg" name="getId" specification="_MN_KgJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MOKJoJWkEeujU4p-Dztokg" name="setId" specification="_MOFRIJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.id = id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MOT6oJWkEeujU4p-Dztokg" name="getCitisen" specification="_MOObEJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return citisen;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MOeSsJWkEeujU4p-Dztokg" name="setCitisen" specification="_MOXlAJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.citisen = citisen;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MOlncJWkEeujU4p-Dztokg" name="toString" specification="_MOhWAJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return citisen;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MNjFoJWkEeujU4p-Dztokg" name="Citisenship" visibility="public" method="_MNuEwZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MNrogJWkEeujU4p-Dztokg" name="arg" type="_GjQcU5WkEeujU4p-Dztokg">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MNtdsJWkEeujU4p-Dztokg"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MNuEwJWkEeujU4p-Dztokg" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MN0LYJWkEeujU4p-Dztokg" name="Citisenship" visibility="public" method="_MN7gIJWkEeujU4p-Dztokg"/>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MN_KgJWkEeujU4p-Dztokg" name="getId" visibility="public" method="_MOCN0JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MOAYoJWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MOFRIJWkEeujU4p-Dztokg" name="setId" visibility="public" method="_MOKJoJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MOIUcJWkEeujU4p-Dztokg" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MOObEJWkEeujU4p-Dztokg" name="getCitisen" visibility="public" method="_MOT6oJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MOSFcJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MOXlAJWkEeujU4p-Dztokg" name="setCitisen" visibility="public" method="_MOeSsJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MOaBQJWkEeujU4p-Dztokg" name="citisen" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MOhWAJWkEeujU4p-Dztokg" name="toString" visibility="public" method="_MOlncJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MOjyQJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_MOsVIJWkEeujU4p-Dztokg" name="Disability" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MOs8MJWkEeujU4p-Dztokg" name="id" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MOuKUJWkEeujU4p-Dztokg" name="type" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MOzp4ZWkEeujU4p-Dztokg" name="Disability" specification="_MOvYcJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    id = Integer.parseInt(arg[0]);&#xD;
+    type = arg[1];&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MO6XkJWkEeujU4p-Dztokg" name="Disability" specification="_MO04AJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+// TODO Auto-generated constructor stub&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MO_3IJWkEeujU4p-Dztokg" name="getId" specification="_MO8z0JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MPHy8JWkEeujU4p-Dztokg" name="setId" specification="_MPC6cJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.id = id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MPN5kJWkEeujU4p-Dztokg" name="getType" specification="_MPKPMJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return type;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MPV1YJWkEeujU4p-Dztokg" name="setType" specification="_MPRj8JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.type = type;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MPdKIJWkEeujU4p-Dztokg" name="toString" specification="_MPXDgJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return type;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MOvYcJWkEeujU4p-Dztokg" name="Disability" visibility="public" method="_MOzp4ZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MOzC0JWkEeujU4p-Dztokg" name="arg" type="_GjQcU5WkEeujU4p-Dztokg">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MOzC0ZWkEeujU4p-Dztokg"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MOzp4JWkEeujU4p-Dztokg" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MO04AJWkEeujU4p-Dztokg" name="Disability" visibility="public" method="_MO6XkJWkEeujU4p-Dztokg"/>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MO8z0JWkEeujU4p-Dztokg" name="getId" visibility="public" method="_MO_3IJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MO-pAJWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MPC6cJWkEeujU4p-Dztokg" name="setId" visibility="public" method="_MPHy8JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MPF9wJWkEeujU4p-Dztokg" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MPKPMJWkEeujU4p-Dztokg" name="getType" visibility="public" method="_MPN5kJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MPMEYJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MPRj8JWkEeujU4p-Dztokg" name="setType" visibility="public" method="_MPV1YJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MPUAMJWkEeujU4p-Dztokg" name="type" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MPXDgJWkEeujU4p-Dztokg" name="toString" visibility="public" method="_MPdKIJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MPXDgZWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_MPjQwJWkEeujU4p-Dztokg" name="Marital" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MPjQwZWkEeujU4p-Dztokg" name="id" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MPpXYJWkEeujU4p-Dztokg" name="status" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MP1ko5WkEeujU4p-Dztokg" name="Marital" specification="_MPpXYZWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    id = Integer.parseInt(arg[0]);&#xD;
+    status = arg[1];&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MQBx4ZWkEeujU4p-Dztokg" name="Marital" specification="_MP7rQJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+// TODO Auto-generated constructor stub&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MQH4gZWkEeujU4p-Dztokg" name="getId" specification="_MQBx4pWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MQN_IZWkEeujU4p-Dztokg" name="setId" specification="_MQH4gpWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.id = id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MQUFwZWkEeujU4p-Dztokg" name="getStatus" specification="_MQN_IpWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return status;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MQgTAJWkEeujU4p-Dztokg" name="setStatus" specification="_MQaMYJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.status = status;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MQgTA5WkEeujU4p-Dztokg" name="toString" specification="_MQgTAZWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return status;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MPpXYZWkEeujU4p-Dztokg" name="Marital" visibility="public" method="_MP1ko5WkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MP1koJWkEeujU4p-Dztokg" name="arg" type="_GjQcU5WkEeujU4p-Dztokg">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MP1koZWkEeujU4p-Dztokg"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MP1kopWkEeujU4p-Dztokg" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MP7rQJWkEeujU4p-Dztokg" name="Marital" visibility="public" method="_MQBx4ZWkEeujU4p-Dztokg"/>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MQBx4pWkEeujU4p-Dztokg" name="getId" visibility="public" method="_MQH4gZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MQH4gJWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MQH4gpWkEeujU4p-Dztokg" name="setId" visibility="public" method="_MQN_IZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MQN_IJWkEeujU4p-Dztokg" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MQN_IpWkEeujU4p-Dztokg" name="getStatus" visibility="public" method="_MQUFwZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MQUFwJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MQaMYJWkEeujU4p-Dztokg" name="setStatus" visibility="public" method="_MQgTAJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MQaMYZWkEeujU4p-Dztokg" name="status" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MQgTAZWkEeujU4p-Dztokg" name="toString" visibility="public" method="_MQgTA5WkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MQgTApWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_MQym4JWkEeujU4p-Dztokg" name="ClientForm" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MQ-0IZWkEeujU4p-Dztokg" name="tab" visibility="private" type="_MQ4tgJWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRLBYZWkEeujU4p-Dztokg" name="idrow" visibility="private" type="_MQ-0IpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRRIAJWkEeujU4p-Dztokg" name="snamerow" visibility="private" type="_MQ-0IpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRRIAZWkEeujU4p-Dztokg" name="namerow" visibility="private" type="_MQ-0IpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRXOoJWkEeujU4p-Dztokg" name="fnamerow" visibility="private" type="_MQ-0IpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRXOoZWkEeujU4p-Dztokg" name="spassrow" visibility="private" type="_MQ-0IpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRXOopWkEeujU4p-Dztokg" name="npassrow" visibility="private" type="_MQ-0IpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRdVQJWkEeujU4p-Dztokg" name="bdayrow" visibility="private" type="_MQ-0IpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRjb4ZWkEeujU4p-Dztokg" name="emailinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRpigJWkEeujU4p-Dztokg" name="snameinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRpigZWkEeujU4p-Dztokg" name="incomeinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRvpIJWkEeujU4p-Dztokg" name="mphoneinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRvpIZWkEeujU4p-Dztokg" name="hphoneinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MRvpIpWkEeujU4p-Dztokg" name="adressinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MR1vwJWkEeujU4p-Dztokg" name="bplaceinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MR1vwZWkEeujU4p-Dztokg" name="idnuminpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MR1vwpWkEeujU4p-Dztokg" name="vydaninpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MR72YJWkEeujU4p-Dztokg" name="npassinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MR72YZWkEeujU4p-Dztokg" name="spassinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSB9AJWkEeujU4p-Dztokg" name="fnameinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSB9AZWkEeujU4p-Dztokg" name="nameinpt" visibility="private" type="_MRdVQZWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSOKQZWkEeujU4p-Dztokg" name="reservistinpt" visibility="private" type="_MSIDoJWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSOKQpWkEeujU4p-Dztokg" name="pensinpt" visibility="private" type="_MSIDoJWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSaXgZWkEeujU4p-Dztokg" name="bdayinpt" visibility="private" type="_MSUQ4JWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSgeIZWkEeujU4p-Dztokg" name="town" visibility="private" type="_MSaXgpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSmkwJWkEeujU4p-Dztokg" name="quirites" visibility="private" type="_MSaXgpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSmkwZWkEeujU4p-Dztokg" name="status" visibility="private" type="_MSaXgpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSsrYJWkEeujU4p-Dztokg" name="disab" visibility="private" type="_MSaXgpWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSyyAJWkEeujU4p-Dztokg" name="polis" visibility="private" type="_MSsrYZWkEeujU4p-Dztokg" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MSyyAZWkEeujU4p-Dztokg"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MSyyApWkEeujU4p-Dztokg" value="*"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MSyyA5WkEeujU4p-Dztokg" name="marit" visibility="private" type="_MPjQwJWkEeujU4p-Dztokg" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MS44oJWkEeujU4p-Dztokg"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MS44oZWkEeujU4p-Dztokg" value="*"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MS44opWkEeujU4p-Dztokg" name="dis" visibility="private" type="_MOsVIJWkEeujU4p-Dztokg" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MS44o5WkEeujU4p-Dztokg"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MS44pJWkEeujU4p-Dztokg" value="*"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MS-YMJWkEeujU4p-Dztokg" name="quirit" visibility="private" type="_MM_sAZWkEeujU4p-Dztokg" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MTA0cJWkEeujU4p-Dztokg"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MTCCkJWkEeujU4p-Dztokg" value="*"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MTIwQJWkEeujU4p-Dztokg" name="DB" visibility="private" type="_GjKVsJWkEeujU4p-Dztokg" isUnique="false">
+            <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_MTLMgJWkEeujU4p-Dztokg" name="defaultValue">
+              <language>JAVA</language>
+              <body>DBConnecter.getInstance()</body>
+            </defaultValue>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MTO24JWkEeujU4p-Dztokg" name="client" visibility="private" type="_MTNowJWkEeujU4p-Dztokg" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MTQsEJWkEeujU4p-Dztokg"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MTRTIJWkEeujU4p-Dztokg" value="*"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MTShQJWkEeujU4p-Dztokg" name="idselected" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MTpGkJWkEeujU4p-Dztokg" name="SelectItem" specification="_MTc5UJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    Client c = tab.getSelectionModel().getSelectedItem();&#xD;
+    idselected = c.getId();&#xD;
+    snameinpt.setText(c.getSurname());&#xD;
+    nameinpt.setText(c.getName());&#xD;
+    fnameinpt.setText(c.getFname());&#xD;
+    bdayinpt.setValue(c.getBday().toLocalDate());&#xD;
+    ;&#xD;
+    spassinpt.setText(c.getSpass());&#xD;
+    npassinpt.setText(c.getNpass());&#xD;
+    vydaninpt.setText(c.getVydan());&#xD;
+    idnuminpt.setText(c.getIdNum());&#xD;
+    bplaceinpt.setText(c.getbPlace());&#xD;
+    adressinpt.setText(c.getAdress());&#xD;
+    hphoneinpt.setText(c.gethPhone());&#xD;
+    mphoneinpt.setText(c.getmPhone());&#xD;
+    emailinpt.setText(c.getEMail());&#xD;
+    pensinpt.setSelected(c.isPensioner());&#xD;
+    incomeinpt.setText(String.valueOf(c.getIncome()));&#xD;
+    reservistinpt.setSelected(c.isReservist());&#xD;
+    int i = 0;&#xD;
+    for (; !polis[i].getName().equals(c.getTown()) &amp;&amp; i &lt; polis.length; i++) ;&#xD;
+    town.setValue(polis[i]);&#xD;
+    i = 0;&#xD;
+    for (; !marit[i].getStatus().equals(c.getMarital()) &amp;&amp; i &lt; marit.length; i++) ;&#xD;
+    status.setValue(marit[i]);&#xD;
+    i = 0;&#xD;
+    for (; !quirit[i].getCitisen().equals(c.getCitisen()) &amp;&amp; i &lt; quirit.length; i++) ;&#xD;
+    quirites.setValue(quirit[i]);&#xD;
+    i = 0;&#xD;
+    for (; !dis[i].getType().equals(c.getDisability()) &amp;&amp; i &lt; dis.length; i++) ;&#xD;
+    disab.setValue(dis[i]);&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MT6MUJWkEeujU4p-Dztokg" name="DelClient" specification="_MT0swJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    DB.executeCommand(&quot;call alphabank.delClient(&quot; + idselected + &quot;);&quot;);&#xD;
+    updt();&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MUEkYJWkEeujU4p-Dztokg" name="AddUpt" specification="_MT8okJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    try {&#xD;
+        boolean norm = true;&#xD;
+        String sname = snameinpt.getText();&#xD;
+        String name = nameinpt.getText();&#xD;
+        String fname = fnameinpt.getText();&#xD;
+        if ((sname + name + fname).contains(&quot;/.:!@#$%^&amp;*(\&quot;)_+|}{';,1234567890-~`&quot;)) {&#xD;
+            norm = false;&#xD;
+        }&#xD;
+        String bDay = bdayinpt.getValue().getYear() + &quot;-&quot; + bdayinpt.getValue().getMonth().getValue() + &quot;-&quot; + bdayinpt.getValue().getDayOfMonth();&#xD;
+        String spass = spassinpt.getText().toUpperCase();&#xD;
+        if (spass.length() != 2)&#xD;
+            norm = false;&#xD;
+        String npass = npassinpt.getText();&#xD;
+        if (!(npass.matches(&quot;[0-9]*&quot;)))&#xD;
+            norm = false;&#xD;
+        String vydan = vydaninpt.getText();&#xD;
+        String idnum = idnuminpt.getText().toUpperCase();&#xD;
+        if (!(idnum.matches(&quot;\\d\\d\\d\\d\\d\\d\\d\\D\\d\\d\\d\\D\\D\\d&quot;)))&#xD;
+            norm = false;&#xD;
+        String bplace = bplaceinpt.getText();&#xD;
+        String adress = adressinpt.getText();&#xD;
+        String hphone = hphoneinpt.getText();&#xD;
+        if (!(hphone.matches(&quot;\\d\\d\\d\\d\\d&quot;)))&#xD;
+            norm = false;&#xD;
+        String mphone = mphoneinpt.getText();&#xD;
+        if (!(mphone.matches(&quot;\\D\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d&quot;)))&#xD;
+            norm = false;&#xD;
+        String email = emailinpt.getText();&#xD;
+        String pnsnr = pensinpt.isSelected() ? &quot;1&quot; : &quot;0&quot;;&#xD;
+        String incm = incomeinpt.getText();&#xD;
+        Double.parseDouble(incm);&#xD;
+        String reservist = reservistinpt.isSelected() ? &quot;1&quot; : &quot;0&quot;;&#xD;
+        String townl = String.valueOf(town.getValue().getId());&#xD;
+        String maritall = String.valueOf(status.getValue().getId());&#xD;
+        String citisen = String.valueOf(quirites.getValue().getId());&#xD;
+        String disability = String.valueOf(disab.getValue().getId());&#xD;
+        //гэты ход на мяжы геніяльнасьці і ідыятызму&#xD;
+        if (!norm)&#xD;
+            throw new Exception();&#xD;
+        if (//а вось гэта ўжо чысты ідыятызм, але нічога лепшага я не прыдумаў&#xD;
+        addupt == 1)&#xD;
+            DB.executeCommand(&quot;call alphabank.updClient('&quot; + sname + &quot;', '&quot; + name + &quot;', '&quot; + fname + &quot;', '&quot; + bDay + &quot;', '&quot; + spass + &quot;', '&quot; + npass + &quot;', '&quot; + vydan + &quot;', '&quot; + idnum + &quot;', &quot; + &quot;'&quot; + bplace + &quot;', '&quot; + adress + &quot;', '&quot; + hphone + &quot;', '&quot; + mphone + &quot;', '&quot; + email + &quot;', &quot; + pnsnr + &quot;,&quot; + incm + &quot; ,&quot; + reservist + &quot;, &quot; + townl + &quot;,&quot; + maritall + &quot;,&quot; + citisen + &quot;,&quot; + disability + &quot;,&quot; + idselected + &quot;);&quot;);&#xD;
+        else&#xD;
+            DB.executeCommand(&quot;call alphabank.insertClient('&quot; + sname + &quot;', '&quot; + name + &quot;', '&quot; + fname + &quot;', '&quot; + bDay + &quot;', '&quot; + spass + &quot;', '&quot; + npass + &quot;', '&quot; + vydan + &quot;', '&quot; + idnum + &quot;', &quot; + &quot;'&quot; + bplace + &quot;', '&quot; + adress + &quot;', '&quot; + hphone + &quot;', '&quot; + mphone + &quot;', '&quot; + email + &quot;', &quot; + pnsnr + &quot;,&quot; + incm + &quot; ,&quot; + reservist + &quot;, &quot; + townl + &quot;,&quot; + maritall + &quot;,&quot; + citisen + &quot;,&quot; + disability + &quot;);&quot;);&#xD;
+        updt();&#xD;
+    } catch (Exception e) {&#xD;
+        Alert(AlertType.ERROR, &quot;Ошибка&quot;, &quot;Проверьте введённые данные&quot;, &quot;&quot;);&#xD;
+    }&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MUQxoJWkEeujU4p-Dztokg" name="UpdClient" specification="_MUNHQJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    AddUpt(1);&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MUk6sJWkEeujU4p-Dztokg" name="Alert" specification="_MUaioJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    Alert alert = new Alert(type);&#xD;
+    alert.setTitle(title);&#xD;
+    alert.setHeaderText(header);&#xD;
+    alert.setContentText(content);&#xD;
+    alert.showAndWait();&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MUrBUJWkEeujU4p-Dztokg" name="AddClient" specification="_MUn-AJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    AddUpt(0);&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MUvSwJWkEeujU4p-Dztokg" name="updt" specification="_MUtdkJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    ArrayList&lt;String[]> al = DB.executeCommand(&quot;select * from alphabank.clientview;&quot;);&#xD;
+    client = new Client[al.size()];&#xD;
+    for (int i = 0; i &lt; client.length; i++) {&#xD;
+        client[i] = new Client(al.get(i));&#xD;
+    }&#xD;
+    ;&#xD;
+    al = DB.executeCommand(&quot;select * from alphabank.towns;&quot;);&#xD;
+    polis = new Town[al.size()];&#xD;
+    for (int i = 0; i &lt; polis.length; i++) {&#xD;
+        polis[i] = new Town(al.get(i));&#xD;
+    }&#xD;
+    ;&#xD;
+    town.setItems(FXCollections.observableArrayList(polis));&#xD;
+    al = DB.executeCommand(&quot;select * from alphabank.marital;&quot;);&#xD;
+    marit = new Marital[al.size()];&#xD;
+    for (int i = 0; i &lt; marit.length; i++) {&#xD;
+        marit[i] = new Marital(al.get(i));&#xD;
+    }&#xD;
+    ;&#xD;
+    status.setItems(FXCollections.observableArrayList(marit));&#xD;
+    al = DB.executeCommand(&quot;select * from alphabank.citizenship;&quot;);&#xD;
+    quirit = new Citisenship[al.size()];&#xD;
+    for (int i = 0; i &lt; quirit.length; i++) {&#xD;
+        quirit[i] = new Citisenship(al.get(i));&#xD;
+    }&#xD;
+    ;&#xD;
+    quirites.setItems(FXCollections.observableArrayList(quirit));&#xD;
+    al = DB.executeCommand(&quot;select * from alphabank.disability;&quot;);&#xD;
+    dis = new Disability[al.size()];&#xD;
+    for (int i = 0; i &lt; dis.length; i++) {&#xD;
+        dis[i] = new Disability(al.get(i));&#xD;
+    }&#xD;
+    ;&#xD;
+    disab.setItems(FXCollections.observableArrayList(dis));&#xD;
+    tab.setItems(FXCollections.observableArrayList(client));&#xD;
+    namerow.setCellValueFactory(new PropertyValueFactory&lt;Client, String>(&quot;name&quot;));&#xD;
+    fnamerow.setCellValueFactory(new PropertyValueFactory&lt;Client, String>(&quot;fname&quot;));&#xD;
+    spassrow.setCellValueFactory(new PropertyValueFactory&lt;Client, String>(&quot;spass&quot;));&#xD;
+    npassrow.setCellValueFactory(new PropertyValueFactory&lt;Client, String>(&quot;npass&quot;));&#xD;
+    idrow.setCellValueFactory(new PropertyValueFactory&lt;Client, Integer>(&quot;id&quot;));&#xD;
+    snamerow.setCellValueFactory(new PropertyValueFactory&lt;Client, String>(&quot;surname&quot;));&#xD;
+    bdayrow.setCellValueFactory(new PropertyValueFactory&lt;Client, Date>(&quot;bday&quot;));&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MU3OkJWkEeujU4p-Dztokg" name="UpdateTable" specification="_MUy9IJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    updt();&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MTc5UJWkEeujU4p-Dztokg" name="SelectItem" visibility="private" method="_MTpGkJWkEeujU4p-Dztokg" raisedException="_MThx0JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MTfVkJWkEeujU4p-Dztokg" name="event" type="_MTWysJWkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MT0swJWkEeujU4p-Dztokg" name="DelClient" visibility="private" method="_MT6MUJWkEeujU4p-Dztokg" raisedException="_MThx0JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MT3JAJWkEeujU4p-Dztokg" name="event" type="_MTt_EJWkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MT8okJWkEeujU4p-Dztokg" name="AddUpt" visibility="private" method="_MUEkYJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MUCIIJWkEeujU4p-Dztokg" name="addupt">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MUNHQJWkEeujU4p-Dztokg" name="UpdClient" visibility="private" method="_MUQxoJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MUO8cJWkEeujU4p-Dztokg" name="event" type="_MTt_EJWkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MUaioJWkEeujU4p-Dztokg" name="Alert" visibility="public" method="_MUk6sJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MUc-4JWkEeujU4p-Dztokg" name="type" type="_MUUcAJWkEeujU4p-Dztokg"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MUfbIJWkEeujU4p-Dztokg" name="title" type="_GjQcU5WkEeujU4p-Dztokg"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MUhQUJWkEeujU4p-Dztokg" name="header" type="_GjQcU5WkEeujU4p-Dztokg"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MUjFgJWkEeujU4p-Dztokg" name="content" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MUn-AJWkEeujU4p-Dztokg" name="AddClient" visibility="private" method="_MUrBUJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MUpzMJWkEeujU4p-Dztokg" name="event" type="_MTt_EJWkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MUtdkJWkEeujU4p-Dztokg" name="updt" visibility="private" method="_MUvSwJWkEeujU4p-Dztokg"/>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MUy9IJWkEeujU4p-Dztokg" name="UpdateTable" visibility="private" method="_MU3OkJWkEeujU4p-Dztokg" raisedException="_MThx0JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MU0LQJWkEeujU4p-Dztokg" name="event" type="_MTt_EJWkEeujU4p-Dztokg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_MSsrYZWkEeujU4p-Dztokg" name="Town" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MabEAJWkEeujU4p-Dztokg" name="id" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MaeHUJWkEeujU4p-Dztokg" name="name" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Maq7oJWkEeujU4p-Dztokg" name="Town" specification="_MahxsJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    id = Integer.parseInt(arg[0]);&#xD;
+    name = arg[1];&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_May3cJWkEeujU4p-Dztokg" name="Town" specification="_MatX4JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+// TODO Auto-generated constructor stub&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Ma4-EJWkEeujU4p-Dztokg" name="getId" specification="_Ma16wJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Ma_EsJWkEeujU4p-Dztokg" name="setId" specification="_Ma7aUJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.id = id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MbEkQJWkEeujU4p-Dztokg" name="getName" specification="_MbBg8JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return name;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MbLR8JWkEeujU4p-Dztokg" name="setName" specification="_MbHnkJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.name = name;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MbQKcJWkEeujU4p-Dztokg" name="toString" specification="_MbNuMJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return name;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MahxsJWkEeujU4p-Dztokg" name="Town" visibility="public" method="_Maq7oJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_ManRQJWkEeujU4p-Dztokg" name="arg" type="_GjQcU5WkEeujU4p-Dztokg">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MaofYJWkEeujU4p-Dztokg"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MaptgJWkEeujU4p-Dztokg" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MatX4JWkEeujU4p-Dztokg" name="Town" visibility="public" method="_May3cJWkEeujU4p-Dztokg"/>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_Ma16wJWkEeujU4p-Dztokg" name="getId" visibility="public" method="_Ma4-EJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ma3v8JWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_Ma7aUJWkEeujU4p-Dztokg" name="setId" visibility="public" method="_Ma_EsJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ma9PgJWkEeujU4p-Dztokg" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MbBg8JWkEeujU4p-Dztokg" name="getName" visibility="public" method="_MbEkQJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MbDWIJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MbHnkJWkEeujU4p-Dztokg" name="setName" visibility="public" method="_MbLR8JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MbKD0JWkEeujU4p-Dztokg" name="name" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MbNuMJWkEeujU4p-Dztokg" name="toString" visibility="public" method="_MbQKcJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MbOVQJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_MTNowJWkEeujU4p-Dztokg" name="Client" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVAYgJWkEeujU4p-Dztokg" name="id" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVDb0JWkEeujU4p-Dztokg" name="surname" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVHGMJWkEeujU4p-Dztokg" name="name" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVKJgJWkEeujU4p-Dztokg" name="fname" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVL-sJWkEeujU4p-Dztokg" name="spass" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVOa8JWkEeujU4p-Dztokg" name="npass" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVQ3MJWkEeujU4p-Dztokg" name="vydan" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVTTcJWkEeujU4p-Dztokg" name="idNum" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVUhkJWkEeujU4p-Dztokg" name="bPlace" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVWWwJWkEeujU4p-Dztokg" name="adress" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVYL8JWkEeujU4p-Dztokg" name="hPhone" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVaBIJWkEeujU4p-Dztokg" name="mPhone" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVcdYJWkEeujU4p-Dztokg" name="EMail" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVe5oJWkEeujU4p-Dztokg" name="pensioner" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_vAIV4I7PEdySGvm5GN66HA"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVgu0JWkEeujU4p-Dztokg" name="reservist" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_vAIV4I7PEdySGvm5GN66HA"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVjyIJWkEeujU4p-Dztokg" name="town" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVncgJWkEeujU4p-Dztokg" name="marital" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVrG4JWkEeujU4p-Dztokg" name="citisen" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVtjIJWkEeujU4p-Dztokg" name="disability" visibility="private" type="_GjQcU5WkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MVxNgJWkEeujU4p-Dztokg" name="income" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_6j0jABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MV8MoJWkEeujU4p-Dztokg" name="bday" visibility="private" type="_MV034JWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MWLdMJWkEeujU4p-Dztokg" name="Client" specification="_MV_P8JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    id = Integer.parseInt(args[0]);&#xD;
+    surname = args[1];&#xD;
+    name = args[2];&#xD;
+    fname = args[3];&#xD;
+    bday = Date.valueOf(args[4]);&#xD;
+    spass = args[5];&#xD;
+    npass = args[6];&#xD;
+    vydan = args[7];&#xD;
+    idNum = args[8];&#xD;
+    bPlace = args[9];&#xD;
+    adress = args[10];&#xD;
+    hPhone = args[11];&#xD;
+    mPhone = args[12];&#xD;
+    EMail = args[13];&#xD;
+    pensioner = args[14].equals(&quot;1&quot;);&#xD;
+    income = Double.parseDouble(args[15]);&#xD;
+    reservist = args[16].equals(&quot;1&quot;);&#xD;
+    town = (args[17]);&#xD;
+    marital = (args[18]);&#xD;
+    disability = (args[19]);&#xD;
+    citisen = (args[20]);&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MWSK4JWkEeujU4p-Dztokg" name="getId" specification="_MWPHkJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MWYRgJWkEeujU4p-Dztokg" name="setId" specification="_MWUnIJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.id = id;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MWdxEJWkEeujU4p-Dztokg" name="getIdNum" specification="_MWatwJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return idNum;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MWls4JWkEeujU4p-Dztokg" name="setIdNum" specification="_MWhbcJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.idNum = idNum;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MWrzgJWkEeujU4p-Dztokg" name="getSurname" specification="_MWoJIJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return surname;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MWx6IJWkEeujU4p-Dztokg" name="setSurname" specification="_MWu20JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.surname = surname;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MW4AwJWkEeujU4p-Dztokg" name="getSpass" specification="_MW0WYJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return spass;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MW7rIJWkEeujU4p-Dztokg" name="setSpass" specification="_MW4n0JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.spass = sPass;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXBxwJWkEeujU4p-Dztokg" name="gethPhone" specification="_MW-HYJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return hPhone;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXIfcJWkEeujU4p-Dztokg" name="sethPhone" specification="_MXE1EJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.hPhone = hPhone;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXOmEJWkEeujU4p-Dztokg" name="getAdress" specification="_MXLiwJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return adress;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXV60JWkEeujU4p-Dztokg" name="setAdress" specification="_MXRpYJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.adress = adress;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXcBcJWkEeujU4p-Dztokg" name="getFname" specification="_MXYXEJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return fname;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXivIJWkEeujU4p-Dztokg" name="setFname" specification="_MXfr0JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.fname = fName;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXoOsJWkEeujU4p-Dztokg" name="getmPhone" specification="_MXlLYJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return mPhone;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MXu8YJWkEeujU4p-Dztokg" name="setmPhone" specification="_MXr5EJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.mPhone = mPhone;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MX1DAJWkEeujU4p-Dztokg" name="getNpass" specification="_MXxYoJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return npass;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MX6ikJWkEeujU4p-Dztokg" name="setNpass" specification="_MX3fQJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.npass = nPass;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MYACIJWkEeujU4p-Dztokg" name="getName" specification="_MX8-0JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return name;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MY4y8ZWkEeujU4p-Dztokg" name="setName" specification="_MYDFcJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.name = name;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MY6BEJWkEeujU4p-Dztokg" name="getEMail" specification="_MY5aAJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return EMail;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MY72QJWkEeujU4p-Dztokg" name="setEMail" specification="_MY6BEZWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    EMail = eMail;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MY8dUZWkEeujU4p-Dztokg" name="getbPlace" specification="_MY72QZWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return bPlace;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MY9rcZWkEeujU4p-Dztokg" name="setbPlace" specification="_MY9EYJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.bPlace = bPlace;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MY-5kJWkEeujU4p-Dztokg" name="getVydan" specification="_MY-SgJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return vydan;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MY_goZWkEeujU4p-Dztokg" name="setVydan" specification="_MY-5kZWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.vydan = vydan;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZAHspWkEeujU4p-Dztokg" name="isPensioner" specification="_MZAHsJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return pensioner;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZBV0JWkEeujU4p-Dztokg" name="setPensioner" specification="_MZAuwJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.pensioner = pensioner;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZB84JWkEeujU4p-Dztokg" name="isReservist" specification="_MZBV0ZWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return reservist;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZCj8ZWkEeujU4p-Dztokg" name="setReservist" specification="_MZB84ZWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.reservist = reservist;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZOxMJWkEeujU4p-Dztokg" name="getTown" specification="_MZCj8pWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return town;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZaXYJWkEeujU4p-Dztokg" name="setTown" specification="_MZU30JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.town = town;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZfP4JWkEeujU4p-Dztokg" name="getMarital" specification="_MZczoJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return marital;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZlWgJWkEeujU4p-Dztokg" name="setMarital" specification="_MZhsIJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.marital = marital;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZq2EJWkEeujU4p-Dztokg" name="getCitisen" specification="_MZoZ0JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return citisen;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZxjwJWkEeujU4p-Dztokg" name="setCitisen" specification="_MZugcJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.citisen = citisen;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZ3DUJWkEeujU4p-Dztokg" name="getDisability" specification="_MZ0AAJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return disability;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MZ9J8JWkEeujU4p-Dztokg" name="setDisability" specification="_MZ6GoJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.disability = disability;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MaCpgJWkEeujU4p-Dztokg" name="getIncome" specification="_MZ_mMJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return income;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MaIJEJWkEeujU4p-Dztokg" name="setIncome" specification="_MaFFwJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.income = income;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MaOPsJWkEeujU4p-Dztokg" name="getBday" specification="_MaKlUJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    return bday;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MaUWUJWkEeujU4p-Dztokg" name="setBday" specification="_MaQr8JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    this.bday = bDay;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MV_P8JWkEeujU4p-Dztokg" name="Client" visibility="public" method="_MWLdMJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MWHLwJWkEeujU4p-Dztokg" name="args" type="_GjQcU5WkEeujU4p-Dztokg">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MWJA8JWkEeujU4p-Dztokg"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MWKPEJWkEeujU4p-Dztokg" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MWPHkJWkEeujU4p-Dztokg" name="getId" visibility="public" method="_MWSK4JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MWQ8wJWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MWUnIJWkEeujU4p-Dztokg" name="setId" visibility="public" method="_MWYRgJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MWWcUJWkEeujU4p-Dztokg" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MWatwJWkEeujU4p-Dztokg" name="getIdNum" visibility="public" method="_MWdxEJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MWci8JWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MWhbcJWkEeujU4p-Dztokg" name="setIdNum" visibility="public" method="_MWls4JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MWj3sJWkEeujU4p-Dztokg" name="idNum" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MWoJIJWkEeujU4p-Dztokg" name="getSurname" visibility="public" method="_MWrzgJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MWqlYJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MWu20JWkEeujU4p-Dztokg" name="setSurname" visibility="public" method="_MWx6IJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MWwsAJWkEeujU4p-Dztokg" name="surname" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MW0WYJWkEeujU4p-Dztokg" name="getSpass" visibility="public" method="_MW4AwJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MW2yoJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MW4n0JWkEeujU4p-Dztokg" name="setSpass" visibility="public" method="_MW7rIJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MW6dAJWkEeujU4p-Dztokg" name="sPass" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MW-HYJWkEeujU4p-Dztokg" name="gethPhone" visibility="public" method="_MXBxwJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXAjoJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXE1EJWkEeujU4p-Dztokg" name="sethPhone" visibility="public" method="_MXIfcJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXHRUJWkEeujU4p-Dztokg" name="hPhone" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXLiwJWkEeujU4p-Dztokg" name="getAdress" visibility="public" method="_MXOmEJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXNX8JWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXRpYJWkEeujU4p-Dztokg" name="setAdress" visibility="public" method="_MXV60JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXUFoJWkEeujU4p-Dztokg" name="adress" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXYXEJWkEeujU4p-Dztokg" name="getFname" visibility="public" method="_MXcBcJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXazUJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXfr0JWkEeujU4p-Dztokg" name="setFname" visibility="public" method="_MXivIJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXhhAJWkEeujU4p-Dztokg" name="fName" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXlLYJWkEeujU4p-Dztokg" name="getmPhone" visibility="public" method="_MXoOsJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXnAkJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXr5EJWkEeujU4p-Dztokg" name="setmPhone" visibility="public" method="_MXu8YJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXtuQJWkEeujU4p-Dztokg" name="mPhone" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MXxYoJWkEeujU4p-Dztokg" name="getNpass" visibility="public" method="_MX1DAJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MXzN0JWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MX3fQJWkEeujU4p-Dztokg" name="setNpass" visibility="public" method="_MX6ikJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MX5UcJWkEeujU4p-Dztokg" name="nPass" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MX8-0JWkEeujU4p-Dztokg" name="getName" visibility="public" method="_MYACIJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MX-0AJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MYDFcJWkEeujU4p-Dztokg" name="setName" visibility="public" method="_MY4y8ZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MY4y8JWkEeujU4p-Dztokg" name="name" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MY5aAJWkEeujU4p-Dztokg" name="getEMail" visibility="public" method="_MY6BEJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MY5aAZWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MY6BEZWkEeujU4p-Dztokg" name="setEMail" visibility="public" method="_MY72QJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MY6oIJWkEeujU4p-Dztokg" name="eMail" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MY72QZWkEeujU4p-Dztokg" name="getbPlace" visibility="public" method="_MY8dUZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MY8dUJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MY9EYJWkEeujU4p-Dztokg" name="setbPlace" visibility="public" method="_MY9rcZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MY9rcJWkEeujU4p-Dztokg" name="bPlace" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MY-SgJWkEeujU4p-Dztokg" name="getVydan" visibility="public" method="_MY-5kJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MY-SgZWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MY-5kZWkEeujU4p-Dztokg" name="setVydan" visibility="public" method="_MY_goZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MY_goJWkEeujU4p-Dztokg" name="vydan" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZAHsJWkEeujU4p-Dztokg" name="isPensioner" visibility="public" method="_MZAHspWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZAHsZWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_vAIV4I7PEdySGvm5GN66HA"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZAuwJWkEeujU4p-Dztokg" name="setPensioner" visibility="public" method="_MZBV0JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZAuwZWkEeujU4p-Dztokg" name="pensioner">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_vAIV4I7PEdySGvm5GN66HA"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZBV0ZWkEeujU4p-Dztokg" name="isReservist" visibility="public" method="_MZB84JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZBV0pWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_vAIV4I7PEdySGvm5GN66HA"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZB84ZWkEeujU4p-Dztokg" name="setReservist" visibility="public" method="_MZCj8ZWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZCj8JWkEeujU4p-Dztokg" name="reservist">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_vAIV4I7PEdySGvm5GN66HA"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZCj8pWkEeujU4p-Dztokg" name="getTown" visibility="public" method="_MZOxMJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZM8AJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZU30JWkEeujU4p-Dztokg" name="setTown" visibility="public" method="_MZaXYJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZX7IJWkEeujU4p-Dztokg" name="town" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZczoJWkEeujU4p-Dztokg" name="getMarital" visibility="public" method="_MZfP4JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZeBwJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZhsIJWkEeujU4p-Dztokg" name="setMarital" visibility="public" method="_MZlWgJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZkIYJWkEeujU4p-Dztokg" name="marital" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZoZ0JWkEeujU4p-Dztokg" name="getCitisen" visibility="public" method="_MZq2EJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZpn8JWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZugcJWkEeujU4p-Dztokg" name="setCitisen" visibility="public" method="_MZxjwJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZwVoJWkEeujU4p-Dztokg" name="citisen" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZ0AAJWkEeujU4p-Dztokg" name="getDisability" visibility="public" method="_MZ3DUJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZ1OIJWkEeujU4p-Dztokg" type="_GjQcU5WkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZ6GoJWkEeujU4p-Dztokg" name="setDisability" visibility="public" method="_MZ9J8JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MZ770JWkEeujU4p-Dztokg" name="disability" type="_GjQcU5WkEeujU4p-Dztokg"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MZ_mMJWkEeujU4p-Dztokg" name="getIncome" visibility="public" method="_MaCpgJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MaBbYJWkEeujU4p-Dztokg" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_6j0jABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MaFFwJWkEeujU4p-Dztokg" name="setIncome" visibility="public" method="_MaIJEJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MaGT4JWkEeujU4p-Dztokg" name="income">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_6j0jABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MaKlUJWkEeujU4p-Dztokg" name="getBday" visibility="public" method="_MaOPsJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MaMagJWkEeujU4p-Dztokg" type="_MV034JWkEeujU4p-Dztokg" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_MaQr8JWkEeujU4p-Dztokg" name="setBday" visibility="public" method="_MaUWUJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MaShIJWkEeujU4p-Dztokg" name="bDay" type="_MV034JWkEeujU4p-Dztokg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_MbVqAJWkEeujU4p-Dztokg" name="Main" visibility="public">
+          <generalization xmi:type="uml:Generalization" xmi:id="_Mbdl0JWkEeujU4p-Dztokg" general="_MbYGQJWkEeujU4p-Dztokg"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_MblhoJWkEeujU4p-Dztokg" name="app" visibility="private" type="_MbgpIJWkEeujU4p-Dztokg" isUnique="false"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_MbtdcJWkEeujU4p-Dztokg" name="main" specification="_Mbok8JWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    launch(args);&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Mb5qsJWkEeujU4p-Dztokg" name="start" specification="_Mb2AUJWkEeujU4p-Dztokg">
+            <language>JAVA</language>
+            <body>&#xD;
+    FXMLLoader loader = new FXMLLoader();&#xD;
+    loader.setLocation(Main.class.getResource(&quot;ClientWindow.fxml&quot;));&#xD;
+    app = (AnchorPane) loader.load();&#xD;
+    primaryStage.setScene(new Scene(app));&#xD;
+    primaryStage.setTitle(&quot;Клиенты&quot;);&#xD;
+    primaryStage.show();&#xD;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_Mbok8JWkEeujU4p-Dztokg" name="main" visibility="public" isStatic="true" method="_MbtdcJWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MbqaIJWkEeujU4p-Dztokg" name="args" type="_GjQcU5WkEeujU4p-Dztokg">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MbroQJWkEeujU4p-Dztokg"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Mbs2YJWkEeujU4p-Dztokg" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_Mb2AUJWkEeujU4p-Dztokg" name="start" visibility="public" method="_Mb5qsJWkEeujU4p-Dztokg" raisedException="_MThx0JWkEeujU4p-Dztokg">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Mb31gJWkEeujU4p-Dztokg" name="primaryStage" type="_MbwgwJWkEeujU4p-Dztokg"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Usage" xmi:id="_kL0nMJWlEeujU4p-Dztokg" client="_MQym4JWkEeujU4p-Dztokg" supplier="_MVrG4JWkEeujU4p-Dztokg"/>
+        <packagedElement xmi:type="uml:Usage" xmi:id="_0jZ5oJWlEeujU4p-Dztokg" client="_MQym4JWkEeujU4p-Dztokg" supplier="_MSsrYZWkEeujU4p-Dztokg"/>
+        <packagedElement xmi:type="uml:Usage" xmi:id="_-Eq0gJWlEeujU4p-Dztokg" client="_MQym4JWkEeujU4p-Dztokg" supplier="_MPjQwJWkEeujU4p-Dztokg"/>
+        <packagedElement xmi:type="uml:Usage" xmi:id="_CNSPsJWmEeujU4p-Dztokg" client="_MQym4JWkEeujU4p-Dztokg" supplier="_MM_sAZWkEeujU4p-Dztokg"/>
+        <packagedElement xmi:type="uml:Usage" xmi:id="_DfNKkJWmEeujU4p-Dztokg" client="_MQym4JWkEeujU4p-Dztokg" supplier="_MOsVIJWkEeujU4p-Dztokg"/>
+        <packagedElement xmi:type="uml:Usage" xmi:id="_EgLfYJWmEeujU4p-Dztokg" client="_MQym4JWkEeujU4p-Dztokg" supplier="_GjKVsJWkEeujU4p-Dztokg"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_GjQcUJWkEeujU4p-Dztokg" name="java">
+      <packagedElement xmi:type="uml:Package" xmi:id="_GjQcUZWkEeujU4p-Dztokg" name="java">
+        <packagedElement xmi:type="uml:Package" xmi:id="_GjQcUpWkEeujU4p-Dztokg" name="lang">
+          <packagedElement xmi:type="uml:Class" xmi:id="_GjQcU5WkEeujU4p-Dztokg" name="String"/>
+          <packagedElement xmi:type="uml:Class" xmi:id="_MThx0JWkEeujU4p-Dztokg" name="Exception"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_MVzpwJWkEeujU4p-Dztokg" name="sql">
+          <packagedElement xmi:type="uml:Class" xmi:id="_MV034JWkEeujU4p-Dztokg" name="Date"/>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_MQym4ZWkEeujU4p-Dztokg" name="importedTypes">
+      <packagedElement xmi:type="uml:Package" xmi:id="_MQym4pWkEeujU4p-Dztokg" name="javafx">
+        <packagedElement xmi:type="uml:Package" xmi:id="_MQym45WkEeujU4p-Dztokg" name="scene">
+          <packagedElement xmi:type="uml:Package" xmi:id="_MQym5JWkEeujU4p-Dztokg" name="control">
+            <packagedElement xmi:type="uml:Class" xmi:id="_MQ4tgJWkEeujU4p-Dztokg" name="TableView"/>
+            <packagedElement xmi:type="uml:Class" xmi:id="_MQ-0IpWkEeujU4p-Dztokg" name="TableColumn"/>
+            <packagedElement xmi:type="uml:Class" xmi:id="_MRdVQZWkEeujU4p-Dztokg" name="TextField"/>
+            <packagedElement xmi:type="uml:Class" xmi:id="_MSIDoJWkEeujU4p-Dztokg" name="CheckBox"/>
+            <packagedElement xmi:type="uml:Class" xmi:id="_MSUQ4JWkEeujU4p-Dztokg" name="DatePicker"/>
+            <packagedElement xmi:type="uml:Class" xmi:id="_MSaXgpWkEeujU4p-Dztokg" name="ChoiceBox"/>
+            <packagedElement xmi:type="uml:Package" xmi:id="_MUTN4JWkEeujU4p-Dztokg" name="Alert">
+              <packagedElement xmi:type="uml:Class" xmi:id="_MUUcAJWkEeujU4p-Dztokg" name="AlertType"/>
+            </packagedElement>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Package" xmi:id="_MTVkkJWkEeujU4p-Dztokg" name="input">
+            <packagedElement xmi:type="uml:Class" xmi:id="_MTWysJWkEeujU4p-Dztokg" name="MouseEvent"/>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Package" xmi:id="_MbfbAJWkEeujU4p-Dztokg" name="layout">
+            <packagedElement xmi:type="uml:Class" xmi:id="_MbgpIJWkEeujU4p-Dztokg" name="AnchorPane"/>
+          </packagedElement>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_MTsw8JWkEeujU4p-Dztokg" name="event">
+          <packagedElement xmi:type="uml:Class" xmi:id="_MTt_EJWkEeujU4p-Dztokg" name="ActionEvent"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_MbW4IJWkEeujU4p-Dztokg" name="application">
+          <packagedElement xmi:type="uml:Class" xmi:id="_MbYGQJWkEeujU4p-Dztokg" name="Application"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_Mbv5sJWkEeujU4p-Dztokg" name="stage">
+          <packagedElement xmi:type="uml:Class" xmi:id="_MbwgwJWkEeujU4p-Dztokg" name="Stage"/>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_KXtv8JWlEeujU4p-Dztokg"/>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Gh_4EJWkEeujU4p-Dztokg">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GiBGMJWkEeujU4p-Dztokg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/PapyrusJava/1#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PapyrusJava_PROFILES/PapyrusJava.profile.uml#_j9REUByGEduN1bTiWJ0lyw"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Giu34JWkEeujU4p-Dztokg">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GiwGAJWkEeujU4p-Dztokg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/Codegen/1#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://Codegen_PROFILES/Codegen.profile.uml#_fPDsIBa-EearhdjjJ6cVzQ"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Gi-IcJWkEeujU4p-Dztokg">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Gi-IcZWkEeujU4p-Dztokg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Model>
+  <PapyrusJava:External xmi:id="_GpEJYJWkEeujU4p-Dztokg" name="java.lang.String" base_Classifier="_GjQcU5WkEeujU4p-Dztokg"/>
+  <PapyrusJava:Synchronized xmi:id="_GpiDcZWkEeujU4p-Dztokg" base_Operation="_GpiDcJWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MNnXEJWkEeujU4p-Dztokg" base_BehavioralFeature="_MNjFoJWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MN0LYZWkEeujU4p-Dztokg" base_BehavioralFeature="_MN0LYJWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MOybwJWkEeujU4p-Dztokg" base_BehavioralFeature="_MOvYcJWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MO4iYJWkEeujU4p-Dztokg" base_BehavioralFeature="_MO04AJWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MPveAJWkEeujU4p-Dztokg" base_BehavioralFeature="_MPpXYZWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MQBx4JWkEeujU4p-Dztokg" base_BehavioralFeature="_MP7rQJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MQ-0IJWkEeujU4p-Dztokg" name="javafx.scene.control.TableView" base_Classifier="_MQ4tgJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MRLBYJWkEeujU4p-Dztokg" name="javafx.scene.control.TableColumn" base_Classifier="_MQ-0IpWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MRjb4JWkEeujU4p-Dztokg" name="javafx.scene.control.TextField" base_Classifier="_MRdVQZWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MSOKQJWkEeujU4p-Dztokg" name="javafx.scene.control.CheckBox" base_Classifier="_MSIDoJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MSaXgJWkEeujU4p-Dztokg" name="javafx.scene.control.DatePicker" base_Classifier="_MSUQ4JWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MSgeIJWkEeujU4p-Dztokg" name="javafx.scene.control.ChoiceBox" base_Classifier="_MSaXgpWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MTG7EJWkEeujU4p-Dztokg" name="dataconnecter.DBConnecter" base_Classifier="_GjKVsJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MTbEIJWkEeujU4p-Dztokg" name="javafx.scene.input.MouseEvent" base_Classifier="_MTWysJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MTmDQJWkEeujU4p-Dztokg" name="java.lang.Exception" base_Classifier="_MThx0JWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MTy3kJWkEeujU4p-Dztokg" name="javafx.event.ActionEvent" base_Classifier="_MTt_EJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MUYtcJWkEeujU4p-Dztokg" name="javafx.scene.control.Alert.AlertType" base_Classifier="_MUUcAJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MV5JUJWkEeujU4p-Dztokg" name="java.sql.Date" base_Classifier="_MV034JWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MWEvgJWkEeujU4p-Dztokg" base_BehavioralFeature="_MV_P8JWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_Mak1AJWkEeujU4p-Dztokg" base_BehavioralFeature="_MahxsJWkEeujU4p-Dztokg"/>
+  <standard:Create xmi:id="_MaxCQJWkEeujU4p-Dztokg" base_BehavioralFeature="_MatX4JWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MbbJkJWkEeujU4p-Dztokg" name="javafx.application.Application" base_Classifier="_MbYGQJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_MbjscJWkEeujU4p-Dztokg" name="javafx.scene.layout.AnchorPane" base_Classifier="_MbgpIJWkEeujU4p-Dztokg"/>
+  <PapyrusJava:External xmi:id="_Mb0LIJWkEeujU4p-Dztokg" name="javafx.stage.Stage" base_Classifier="_MbwgwJWkEeujU4p-Dztokg"/>
+</xmi:XMI>

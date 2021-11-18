@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="120.0" minWidth="120.0" prefHeight="638.0" prefWidth="1054.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientForm">
+   <children>
+      <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="613.0" prefWidth="371.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="605.0" prefWidth="356.0">
+               <children>
+                  <TextField fx:id="snameinpt" layoutX="182.0" layoutY="14.0" />
+                  <TextField fx:id="incomeinpt" layoutX="182.0" layoutY="289.0" />
+                  <TextField fx:id="mphoneinpt" layoutX="182.0" layoutY="264.0" />
+                  <TextField fx:id="hphoneinpt" layoutX="182.0" layoutY="239.0" />
+                  <TextField fx:id="adressinpt" layoutX="182.0" layoutY="214.0" />
+                  <TextField fx:id="bplaceinpt" layoutX="182.0" layoutY="189.0" />
+                  <TextField fx:id="idnuminpt" layoutX="182.0" layoutY="164.0" />
+                  <TextField fx:id="vydaninpt" layoutX="182.0" layoutY="139.0" />
+                  <TextField fx:id="npassinpt" layoutX="182.0" layoutY="114.0" />
+                  <TextField fx:id="spassinpt" layoutX="182.0" layoutY="89.0" />
+                  <TextField fx:id="fnameinpt" layoutX="182.0" layoutY="64.0" />
+                  <TextField fx:id="nameinpt" layoutX="182.0" layoutY="39.0" />
+                  <CheckBox fx:id="reservistinpt" layoutX="182.0" layoutY="318.0" mnemonicParsing="false" text="Военнообязанный" />
+                  <CheckBox fx:id="pensinpt" layoutX="182.0" layoutY="335.0" mnemonicParsing="false" text="Пенсионер" />
+                  <DatePicker fx:id="bdayinpt" layoutX="181.0" layoutY="352.0" />
+                  <ChoiceBox fx:id="town" layoutX="181.0" layoutY="377.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="status" layoutX="181.0" layoutY="402.0" prefWidth="150.0" />
+                  <Label layoutX="14.0" layoutY="20.0" text="Фамилия" />
+                  <Label layoutX="14.0" layoutY="43.0" text="Имя" />
+                  <Label layoutX="14.0" layoutY="68.0" text="Отчество" />
+                  <Label layoutX="14.0" layoutY="93.0" text="Серия пасспорта" />
+                  <Label layoutX="14.0" layoutY="118.0" text="Номер пасспорта" />
+                  <Label layoutX="14.0" layoutY="143.0" text="Кем выдан" />
+                  <Label layoutX="14.0" layoutY="168.0" text="Идентефикационный номер" />
+                  <Label layoutX="14.0" layoutY="193.0" text="Место рождения" />
+                  <Label layoutX="14.0" layoutY="218.0" text="Адрес" />
+                  <Label layoutX="14.0" layoutY="243.0" text="Домашний телефон" />
+                  <Label layoutX="14.0" layoutY="268.0" text="Мобильный телефон" />
+                  <Label layoutX="14.0" layoutY="294.0" text="Доход" />
+                  <Label layoutX="14.0" layoutY="356.0" text="Дата рождения" />
+                  <Label layoutX="14.0" layoutY="381.0" text="Город проживания" />
+                  <Label layoutX="14.0" layoutY="406.0" text="Семейное положение" />
+                  <ChoiceBox fx:id="quirites" layoutX="180.0" layoutY="427.0" prefWidth="150.0" />
+                  <Label layoutX="13.0" layoutY="431.0" text="Гражданство" />
+                  <ChoiceBox fx:id="disab" layoutX="180.0" layoutY="452.0" prefWidth="150.0" />
+                  <Label layoutX="13.0" layoutY="456.0" text="Инвалидность" />
+                  <Button layoutX="10.0" layoutY="541.0" mnemonicParsing="false" onAction="#AddClient" text="Добавить" />
+                  <Button layoutX="145.0" layoutY="541.0" mnemonicParsing="false" onAction="#UpdClient" text="Изменить" />
+                  <Button layoutX="282.0" layoutY="541.0" mnemonicParsing="false" onAction="#DelClient" text="Удалить" />
+                  <Button layoutX="9.0" layoutY="566.0" mnemonicParsing="false" onAction="#UpdateTable" prefHeight="25.0" prefWidth="333.0" text="Обновить таблицу" />
+                  <TextField fx:id="emailinpt" layoutX="181.0" layoutY="477.0" />
+                  <Label layoutX="13.0" layoutY="481.0" text="EMail" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <TableView fx:id="tab" layoutX="385.0" layoutY="13.0" onMouseClicked="#SelectItem" prefHeight="613.0" prefWidth="650.0">
+        <columns>
+          <TableColumn fx:id="idrow" prefWidth="75.0" text="id" />
+          <TableColumn fx:id="snamerow" prefWidth="75.0" text="Фамилия" />
+            <TableColumn fx:id="namerow" prefWidth="75.0" text="Имя" />
+            <TableColumn fx:id="fnamerow" prefWidth="75.0" text="Отчество" />
+            <TableColumn fx:id="bdayrow" prefWidth="109.0" text="Дата рождения" />
+            <TableColumn fx:id="spassrow" prefWidth="104.0" text="Серия пасспорта" />
+            <TableColumn fx:id="npassrow" prefWidth="125.0" text="Номер пасспорта" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

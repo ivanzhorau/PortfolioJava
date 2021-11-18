@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane minHeight="333.0" minWidth="666.0" onMouseMoved="#getMess" prefHeight="487.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.ChatControl">
+   <children>
+      <WebView fx:id="MessageView" layoutX="400.0" layoutY="89.0" prefHeight="384.0" prefWidth="386.0" />
+      <WebView fx:id="ChatView" layoutX="400.0" layoutY="14.0" prefHeight="78.0" prefWidth="386.0" />
+      <TextArea fx:id="MessageText" layoutX="14.0" layoutY="31.0" prefHeight="216.0" prefWidth="370.0" />
+      <Label fx:id="TextMessage" layoutX="14.0" layoutY="14.0" text="Tekst paviedamleńnia" />
+      <Label layoutX="14.0" layoutY="258.0" text="Kod ustaŭki" />
+      <TextField fx:id="InsertCode" layoutX="14.0" layoutY="275.0" onAction="#getMess" onMouseEntered="#getMess" prefHeight="25.0" prefWidth="370.0" />
+      <TextField fx:id="Width" layoutX="14.0" layoutY="320.0" />
+      <TextField fx:id="Heidth" layoutX="14.0" layoutY="362.0" />
+      <Label layoutX="14.0" layoutY="300.0" text="Šyrynia" />
+      <Label layoutX="14.0" layoutY="345.0" text="Vyšynia" />
+      <Button layoutX="181.0" layoutY="308.0" mnemonicParsing="false" onAction="#InsImg" prefHeight="25.0" prefWidth="202.0" text="Ustavić vyjaŭku" />
+      <Button layoutX="181.0" layoutY="333.0" mnemonicParsing="false" onAction="#InsHref" prefHeight="25.0" prefWidth="202.0" text="Ustavić spasyłku" />
+      <Button layoutX="181.0" layoutY="448.0" mnemonicParsing="false" onAction="#Send" prefHeight="25.0" prefWidth="202.0" text="Adpravić paviedamleńnie" />
+      <Button layoutX="181.0" layoutY="358.0" mnemonicParsing="false" onAction="#ClearIns" prefHeight="25.0" prefWidth="202.0" text="Ačyścić ustaŭki" />
+      <TextField fx:id="Text" layoutX="14.0" layoutY="404.0" />
+      <Label layoutX="14.0" layoutY="387.0" text="Podpis spasyłki" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="300.0" minWidth="600.0" prefHeight="576.0" prefWidth="1389.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="credit.CreditForm">
+   <children>
+      <TextField fx:id="KassaD" editable="false" layoutX="34.0" layoutY="14.0" prefHeight="25.0" prefWidth="116.0" />
+      <ScrollPane layoutY="74.0" prefHeight="406.0" prefWidth="273.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="265.0">
+               <children>
+                  <Button layoutX="2.0" layoutY="311.0" mnemonicParsing="false" onAction="#getCredit" prefHeight="25.0" prefWidth="262.0" text="Получить кредит" />
+                  <Button layoutX="2.0" layoutY="336.0" mnemonicParsing="false" onAction="#amortisation" prefHeight="25.0" prefWidth="262.0" text="Погашение долга" />
+                  <ChoiceBox fx:id="ClInp" layoutX="78.0" layoutY="51.0" prefWidth="150.0" />
+                  <Label layoutX="12.0" layoutY="55.0" text=" Клиент" />
+                  <TextField fx:id="summ" layoutX="78.0" layoutY="14.0" />
+                  <Label layoutX="14.0" layoutY="18.0" text="Сумма" />
+                  <Button layoutX="51.0" layoutY="361.0" mnemonicParsing="false" onAction="#endDay" text="Закрытие банковского дня" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Label layoutX="3.0" layoutY="18.0" text="Касса" />
+      <Label layoutX="4.0" layoutY="47.0" text="СФРБ" />
+      <TextField fx:id="SFRBD" editable="false" layoutX="34.0" layoutY="43.0" prefHeight="25.0" prefWidth="116.0" />
+      <TextField fx:id="KassaK" editable="false" layoutX="154.0" layoutY="14.0" prefHeight="25.0" prefWidth="116.0" />
+      <TextField fx:id="SFRBK" editable="false" layoutX="154.0" layoutY="43.0" prefHeight="25.0" prefWidth="116.0" />
+      <Button layoutX="3.0" layoutY="534.0" mnemonicParsing="false" onAction="#Upd" prefHeight="25.0" prefWidth="273.0" text="Обновить" />
+      <TableView fx:id="tab" layoutX="276.0" layoutY="8.0" prefHeight="567.0" prefWidth="1109.0">
+        <columns>
+          <TableColumn fx:id="idTab" prefWidth="75.0" text="id" />
+          <TableColumn fx:id="nowDTab" prefWidth="163.0" text="Текущий счёт(д)" />
+            <TableColumn fx:id="nowKTab" prefWidth="137.0" text="Текущий счёт(к)" />
+            <TableColumn fx:id="percDTab" prefWidth="145.0" text="Процентный счёт(д)" />
+            <TableColumn fx:id="percKTab" prefWidth="150.0" text="Процентный счёт(к)" />
+            <TableColumn fx:id="clTab" prefWidth="159.0" text="Клиент" />
+            <TableColumn fx:id="crdtTab" prefWidth="134.0" text="Кредит" />
+            <TableColumn fx:id="pmntTab" prefWidth="131.0" text="Осталось платежей" />
+        </columns>
+      </TableView>
+      <Button layoutX="3.0" layoutY="509.0" mnemonicParsing="false" onAction="#Reg" prefHeight="25.0" prefWidth="273.0" text="Добавить договор" />
+      <Button layoutX="3.0" layoutY="484.0" mnemonicParsing="false" onAction="#checkCred" prefHeight="25.0" prefWidth="273.0" text="Посмотреть планы погашения кредитов" />
+   </children>
+</AnchorPane>
